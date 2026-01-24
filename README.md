@@ -34,9 +34,6 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 
 --------------------
 
-</docgen-api>
-
-
 Esto con el fin de actualizar el Typescript a la última versión y evitar errores de compilación.
 estando en la carpeta raiz del proyecto. 
 
@@ -48,3 +45,9 @@ npm install -D typescript@latest
 npx tsc -v
 
 npm run build
+
+
+
+</docgen-api>
+
+
