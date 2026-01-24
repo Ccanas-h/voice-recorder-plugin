@@ -13,40 +13,105 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`checkPermissions()`](#checkpermissions)
+* [`requestPermissions()`](#requestpermissions)
+* [`startRecording()`](#startrecording)
+* [`stopRecording()`](#stoprecording)
+* [`isRecording()`](#isrecording)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### checkPermissions()
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+checkPermissions() => Promise<PermissionResult>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+Check if microphone permission has been granted
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#permissionresult">PermissionResult</a>&gt;</code>
 
 --------------------
 
-Esto con el fin de actualizar el Typescript a la última versión y evitar errores de compilación.
-estando en la carpeta raiz del proyecto. 
 
-```bash
+### requestPermissions()
 
-rm -rf node_modules package-lock.json
-npm install
-npm install -D typescript@latest
-npx tsc -v
+```typescript
+requestPermissions() => Promise<PermissionResult>
+```
 
-npm run build
+Request microphone permission from the user
+
+**Returns:** <code>Promise&lt;<a href="#permissionresult">PermissionResult</a>&gt;</code>
+
+--------------------
 
 
+### startRecording()
+
+```typescript
+startRecording() => Promise<void>
+```
+
+Start recording audio
+
+--------------------
+
+
+### stopRecording()
+
+```typescript
+stopRecording() => Promise<RecordingResult>
+```
+
+Stop recording and return the audio file information
+
+**Returns:** <code>Promise&lt;<a href="#recordingresult">RecordingResult</a>&gt;</code>
+
+--------------------
+
+
+### isRecording()
+
+```typescript
+isRecording() => Promise<RecordingStatus>
+```
+
+Check if currently recording
+
+**Returns:** <code>Promise&lt;<a href="#recordingstatus">RecordingStatus</a>&gt;</code>
+
+--------------------
+
+
+### Interfaces
+
+
+#### PermissionResult
+
+| Prop          | Type                 |
+| ------------- | -------------------- |
+| **`granted`** | <code>boolean</code> |
+
+
+#### RecordingResult
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`filePath`** | <code>string</code> |
+| **`duration`** | <code>number</code> |
+| **`mimeType`** | <code>string</code> |
+
+
+#### RecordingStatus
+
+| Prop            | Type                 |
+| --------------- | -------------------- |
+| **`recording`** | <code>boolean</code> |
 
 </docgen-api>
 
