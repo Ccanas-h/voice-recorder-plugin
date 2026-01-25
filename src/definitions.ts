@@ -12,6 +12,10 @@ export interface RecordingStatus {
   recording: boolean;
 }
 
+export interface RecordingStateChangedEvent {
+  recording: boolean;
+}
+
 export interface VoiceRecorderPlugin {
   /**
    * Check if microphone permission has been granted
@@ -40,4 +44,19 @@ export interface VoiceRecorderPlugin {
    * Check if currently recording
    */
   isRecording(): Promise<RecordingStatus>;
+
+  /**
+   * Listen to recording state changes
+   * @param eventName - Must be 'recordingStateChanged'
+   * @param listenerFunc - Callback function that receives the recording state
+   */
+  addListener(
+    eventName: 'recordingStateChanged',
+    listenerFunc: (event: RecordingStateChangedEvent) => void,
+  ): Promise<any>;
+
+  /**
+   * Remove all listeners for this plugin
+   */
+  removeAllListeners(): Promise<void>;
 }

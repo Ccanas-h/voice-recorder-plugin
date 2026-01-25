@@ -18,6 +18,8 @@ npx cap sync
 * [`startRecording()`](#startrecording)
 * [`stopRecording()`](#stoprecording)
 * [`isRecording()`](#isrecording)
+* [`addListener('recordingStateChanged', ...)`](#addlistenerrecordingstatechanged-)
+* [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -88,6 +90,35 @@ Check if currently recording
 --------------------
 
 
+### addListener('recordingStateChanged', ...)
+
+```typescript
+addListener(eventName: 'recordingStateChanged', listenerFunc: (event: RecordingStateChangedEvent) => void) => Promise<any>
+```
+
+Listen to recording state changes
+
+| Param              | Type                                                                                                  | Description                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **`eventName`**    | <code>'recordingStateChanged'</code>                                                                  | - Must be 'recordingStateChanged'                     |
+| **`listenerFunc`** | <code>(event: <a href="#recordingstatechangedevent">RecordingStateChangedEvent</a>) =&gt; void</code> | - Callback function that receives the recording state |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Remove all listeners for this plugin
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -108,6 +139,13 @@ Check if currently recording
 
 
 #### RecordingStatus
+
+| Prop            | Type                 |
+| --------------- | -------------------- |
+| **`recording`** | <code>boolean</code> |
+
+
+#### RecordingStateChangedEvent
 
 | Prop            | Type                 |
 | --------------- | -------------------- |

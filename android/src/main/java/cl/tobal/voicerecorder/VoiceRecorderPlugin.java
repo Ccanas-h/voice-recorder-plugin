@@ -2,6 +2,7 @@ package cl.tobal.voicerecorder;
 
 import android.Manifest;
 import com.getcapacitor.JSObject;
+import com.getcapacitor.Logger;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -59,9 +60,21 @@ public class VoiceRecorderPlugin extends Plugin {
         }
 
         try {
-            implementation.startRecording();
+            Logger.info("VoiceRecorderPlugin", "🎤 Java: startRecording() called");
+            implementation.startRecording(); // BLOCKING - returns when recording started
+            Logger.info("VoiceRecorderPlugin", "✅ Java: MediaRecorder started");
+            
+            // Emit event IMMEDIATELY - recording has already started
+            JSObject eventData = new JSObject();
+            eventData.put("recording", true);
+            Logger.info("VoiceRecorderPlugin", "📡 Java: Emitting recordingStateChanged event with recording=true");
+            notifyListeners("recordingStateChanged", eventData);
+            Logger.info("VoiceRecorderPlugin", "📡 Java: Event emitted");
+            
             call.resolve();
+            Logger.info("VoiceRecorderPlugin", "✅ Java: call.resolve() completed");
         } catch (Exception e) {
+            Logger.info("VoiceRecorderPlugin", "❌ Java: Error - " + e.getMessage());
             call.reject("Failed to start recording: " + e.getMessage(), e);
         }
     }
@@ -69,7 +82,12 @@ public class VoiceRecorderPlugin extends Plugin {
     @PluginMethod
     public void stopRecording(PluginCall call) {
         try {
-            VoiceRecorder.RecordingResult result = implementation.stopRecording();
+            VoiceRecorder.RecordingResult result = implementation.stopRecording(); // BLOCKING
+            
+            // Emit event IMMEDIATELY - recording has already stopped
+            JSObject eventData = new JSObject();
+            eventData.put("recording", false);
+            notifyListeners("recordingStateChanged", eventData);
             
             JSObject ret = new JSObject();
             ret.put("filePath", result.filePath);

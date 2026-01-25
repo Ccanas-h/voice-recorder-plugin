@@ -54,9 +54,12 @@ public class VoiceRecorder {
 
         try {
             mediaRecorder.prepare();
-            mediaRecorder.start();
+            mediaRecorder.start(); // BLOCKING - when this returns, recording HAS started
+            
+            // Update state IMMEDIATELY after start()
             recordingStartTime = System.currentTimeMillis();
             isRecording = true;
+            
             Logger.info("VoiceRecorder", "Recording started: " + currentFilePath);
         } catch (IOException | IllegalStateException e) {
             cleanup();
@@ -70,7 +73,11 @@ public class VoiceRecorder {
         }
 
         try {
-            mediaRecorder.stop();
+            mediaRecorder.stop(); // BLOCKING - when this returns, recording HAS stopped
+            
+            // Update state IMMEDIATELY after stop()
+            isRecording = false;
+            
             long duration = System.currentTimeMillis() - recordingStartTime;
             
             RecordingResult result = new RecordingResult();
@@ -92,7 +99,7 @@ public class VoiceRecorder {
             try {
                 mediaRecorder.release();
             } catch (Exception e) {
-                Logger.error("VoiceRecorder", "Error releasing MediaRecorder", e);
+                Logger.info("VoiceRecorder", "Error releasing MediaRecorder: " + e.getMessage());
             }
             mediaRecorder = null;
         }
