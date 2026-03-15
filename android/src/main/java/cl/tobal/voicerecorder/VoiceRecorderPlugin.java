@@ -8,6 +8,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
+import com.getcapacitor.annotation.PermissionCallback;
 import com.getcapacitor.PermissionState;
 
 @CapacitorPlugin(
@@ -107,8 +108,9 @@ public class VoiceRecorderPlugin extends Plugin {
         call.resolve(result);
     }
 
-    @PluginMethod
-    public void permissionCallback(PluginCall call) {
+    // @com.getcapacitor.annotation.PermissionCallback
+    @PermissionCallback
+    private void permissionCallback(PluginCall call) {
         JSObject result = new JSObject();
         
         if (getPermissionState("microphone") == PermissionState.GRANTED) {
